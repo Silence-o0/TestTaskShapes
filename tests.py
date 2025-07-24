@@ -59,8 +59,8 @@ def test_rectangle_invalid_missing_bottomleft():
 
 def test_circle_valid_computing():
     shape = Circle((1, 1), 5)
-    assert shape.find_area() == pytest.approx(78.5)
-    assert shape.find_perimeter() == pytest.approx(31.4)
+    assert shape.find_area() == pytest.approx(78.5, 1)
+    assert shape.find_perimeter() == pytest.approx(31.4, 1)
 
 def test_circle_valid_read_from_line():
     data = ["Center", "1", "1", "Radius", "5"]

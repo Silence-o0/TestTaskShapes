@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import math
 
 
 class ShapeInterface(ABC):
@@ -86,10 +87,10 @@ class Circle(ShapeInterface):
         self.radius = radius
     
     def find_area(self):
-        return 3.14 * (self.radius ** 2)
+        return math.pi * (self.radius ** 2)
 
     def find_perimeter(self):
-        return 3.14 * self.radius * 2
+        return math.pi * self.radius * 2
     
     @classmethod
     def read_from_line(cls, data):

@@ -10,7 +10,7 @@ shapes_dict = {
 
 def compute_and_output(shapes_data):
     for shape in shapes_data:
-        print(f"{shape.shape_name} Perimeter {shape.find_perimeter()} Area {shape.find_area()}")
+        print(f"{shape.shape_name} Perimeter {round(shape.find_perimeter(), 2)} Area {round(shape.find_area(), 2)}")
 
 
 def read_data(filename):
