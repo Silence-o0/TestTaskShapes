@@ -2,6 +2,20 @@ from abc import ABC, abstractmethod
 import math
 
 
+def read_point(data, point_name):
+    try:
+        point_idx = data.index(point_name)
+        if point_idx is not None:
+            point_x = float(data[point_idx + 1])
+            point_y = float(data[point_idx + 2])
+            return (point_x, point_y)
+        else:
+            raise IndexError
+    except(ValueError, IndexError):
+        raise ValueError
+
+
+
 class ShapeInterface(ABC):
     shape_name = None
 
@@ -44,19 +58,7 @@ class Rectangle(Polygon):
     
     @classmethod
     def read_from_line(cls, data):
-        try:
-            top_right_idx = data.index("TopRight")
-            x1 = float(data[top_right_idx + 1])
-            y1 = float(data[top_right_idx + 2])
-
-            bottom_left_idx = data.index("BottomLeft")
-            x2 = float(data[bottom_left_idx + 1])
-            y2 = float(data[bottom_left_idx + 2])
-        except(ValueError, IndexError) as e:
-            raise ValueError(f"Invalid data. {cls.shape_name} should contain TopRight point and BottomLeft.\
-                             Example: Rectangle TopRight 1 1 BottomLeft 2 2")
-
-        return cls((x1, y1), (x2, y2))
+        return cls(read_point(data, "TopRight"), read_point(data, "BottomLeft"))
 
 
 class Square(Rectangle):
@@ -100,9 +102,7 @@ class Circle(ShapeInterface):
     @classmethod
     def read_from_line(cls, data):
         try:
-            center_idx = data.index("Center")
-            x = float(data[center_idx + 1])
-            y = float(data[center_idx + 2])
+            center = read_point(data, "Center")
 
             radius_idx = data.index("Radius")
             radius = float(data[radius_idx + 1])
@@ -113,7 +113,7 @@ class Circle(ShapeInterface):
         if radius < 0:
             raise ValueError("Radius length can't be negative.")
 
-        return cls((x, y), radius)
+        return cls(center, radius)
     
 
 class Triangle(Polygon):
@@ -133,17 +133,7 @@ class Triangle(Polygon):
     def find_area(self):
         s = self.find_perimeter() / 2
         return math.sqrt(s * (s - self.side12) * (s - self.side13) * (s - self.side23)) 
-    
-    @classmethod
-    def read_point(self, data, point_name):
-            try:
-                point_idx = data.index(point_name)
-                point_x = float(data[point_idx + 1])
-                point_y = float(data[point_idx + 2])
-            except(ValueError, IndexError):
-                pass
-            return (point_x, point_y)
 
     @classmethod
     def read_from_line(cls, data):
-        return cls(cls.read_point(data, "Point1"), cls.read_point(data, "Point2"), cls.read_point(data, "Point3"))
+        return cls(read_point(data, "Point1"), read_point(data, "Point2"), read_point(data, "Point3"))
