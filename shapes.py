@@ -114,9 +114,12 @@ class Triangle(ShapeInterface):
         self.point1 = point1
         self.point2 = point2
         self.point3 = point3
-        self.side13 = math.sqrt((point3[0]-point1[0])**2 + (point3[1]-point1[1])**2)
-        self.side23 = math.sqrt((point3[0]-point2[0])**2 + (point3[1]-point2[1])**2)
-        self.side12 = math.sqrt((point2[0]-point1[0])**2 + (point2[1]-point1[1])**2)
+        self.side13 = self.compute_side(point3, point1)
+        self.side23 = self.compute_side(point3, point2)
+        self.side12 = self.compute_side(point2, point1)
+
+    def compute_side(self, point1, point2):
+        return math.sqrt((point2[0]-point1[0])**2 + (point2[1]-point1[1])**2)
 
 
     def find_area(self):
