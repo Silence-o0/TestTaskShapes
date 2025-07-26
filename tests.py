@@ -82,3 +82,32 @@ def test_circle_invalid_negative_radius():
     data = ["Center", "1", "1", "Radius", "-5"]
     with pytest.raises(ValueError):
         Circle.read_from_line(data)
+
+
+# Triangle tests
+
+def test_triangle_valid_computing():
+    shape = Triangle((3, 4), (1, 1), (0, 0))
+    assert shape.find_area() == pytest.approx(0.5, 1)
+    assert shape.find_perimeter() == pytest.approx(10, 1)
+
+def test_triangle_valid_computing2():
+    shape = Triangle((2, 2), (1, 1), (8, 10))
+    assert shape.find_area() == pytest.approx(1, 1)
+    assert shape.find_perimeter() == pytest.approx(22.8, 1)
+
+# def test_triangle_valid_read_from_line():
+    # data = ["TopRight", "3", "4", "BottomLeft", "1", "1"]
+    # shape = Rectangle.read_from_line(data)
+    # assert shape.top_right == (3, 4)
+    # assert shape.bottom_left == (1, 1)
+
+# def test_rectangle_invalid_missing_topright():
+#     data = ["BottomLeft", "1", "1"]
+#     with pytest.raises(ValueError):
+#         Rectangle.read_from_line(data)
+
+# def test_rectangle_invalid_missing_bottomleft():
+#     data = ["TopRight", "3", "3"]
+#     with pytest.raises(ValueError):
+#         Rectangle.read_from_line(data)

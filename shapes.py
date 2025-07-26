@@ -106,3 +106,26 @@ class Circle(ShapeInterface):
             raise ValueError("Radius length can't be negative.")
 
         return cls((x, y), radius)
+    
+
+class Triangle(ShapeInterface):
+    shape_name = "Triangle"
+    def __init__(self, point1, point2, point3):
+        self.point1 = point1
+        self.point2 = point2
+        self.point3 = point3
+        self.side13 = math.sqrt((point3[0]-point1[0])**2 + (point3[1]-point1[1])**2)
+        self.side23 = math.sqrt((point3[0]-point2[0])**2 + (point3[1]-point2[1])**2)
+        self.side12 = math.sqrt((point2[0]-point1[0])**2 + (point2[1]-point1[1])**2)
+
+
+    def find_area(self):
+        s = self.find_perimeter() / 2
+        return math.sqrt(s * (s - self.side12) * (s - self.side13) * (s - self.side23)) 
+
+    def find_perimeter(self):
+        return self.side12 + self.side13 + self.side23
+
+    @classmethod
+    def read_from_line(cls, data):
+        pass
