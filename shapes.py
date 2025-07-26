@@ -18,20 +18,29 @@ class ShapeInterface(ABC):
         pass
 
 
+class Polygon(ShapeInterface):
+    shape_name = None
+    def __init__(self, sides):
+        self.sides = sides
 
-class Rectangle(ShapeInterface):
+    def find_perimeter(self):
+        perimeter = 0
+        for side in self.sides:
+            perimeter += side
+        return perimeter
+
+
+class Rectangle(Polygon):
     shape_name = "Rectangle"
     def __init__(self, point1, point2):
         self.top_right = point1
         self.bottom_left = point2
         self.side1 = abs(self.top_right[0] - self.bottom_left[0])
         self.side2 = abs(self.top_right[1] - self.bottom_left[1])
+        super().__init__([self.side1, self.side2, self.side1, self.side2])
     
     def find_area(self):
         return self.side1 * self.side2
-
-    def find_perimeter(self):
-        return (self.side1 + self.side2) * 2
     
     @classmethod
     def read_from_line(cls, data):
@@ -53,10 +62,9 @@ class Rectangle(ShapeInterface):
 class Square(Rectangle):
     shape_name = "Square"
     def __init__(self, point, side):
-        self.top_right = point
-        self.side1 = side
-        self.side2 = side
         self.side = side
+        super().__init__(point, (point[0]-side, point[1]-side))
+
     
     @classmethod
     def read_from_line(cls, data):
@@ -108,7 +116,7 @@ class Circle(ShapeInterface):
         return cls((x, y), radius)
     
 
-class Triangle(ShapeInterface):
+class Triangle(Polygon):
     shape_name = "Triangle"
     def __init__(self, point1, point2, point3):
         self.point1 = point1
@@ -117,17 +125,14 @@ class Triangle(ShapeInterface):
         self.side13 = self.compute_side(point3, point1)
         self.side23 = self.compute_side(point3, point2)
         self.side12 = self.compute_side(point2, point1)
+        super().__init__([self.side13, self.side23, self.side12])
 
     def compute_side(self, point1, point2):
         return math.sqrt((point2[0]-point1[0])**2 + (point2[1]-point1[1])**2)
 
-
     def find_area(self):
         s = self.find_perimeter() / 2
         return math.sqrt(s * (s - self.side12) * (s - self.side13) * (s - self.side23)) 
-
-    def find_perimeter(self):
-        return self.side12 + self.side13 + self.side23
 
     @classmethod
     def read_from_line(cls, data):
