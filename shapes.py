@@ -18,36 +18,6 @@ class ShapeInterface(ABC):
         pass
 
 
-class Square(ShapeInterface):
-    shape_name = "Square"
-    def __init__(self, point, side):
-        self.top_right = point
-        self.side = side
-    
-    def find_area(self):
-        return self.side * self.side
-
-    def find_perimeter(self):
-        return self.side * 4
-    
-    @classmethod
-    def read_from_line(cls, data):
-        try:
-            top_right_idx = data.index("TopRight")
-            x = float(data[top_right_idx + 1])
-            y = float(data[top_right_idx + 2])
-
-            side_idx = data.index("Side")
-            side = float(data[side_idx + 1])
-        except(ValueError, IndexError) as e:
-            raise ValueError(f"Invalid data. {cls.shape_name} should contain TopRight point and Side length.\
-                             Example: Square TopRight 1 1 Side 1")
-        
-        if side < 0:
-            raise ValueError("Side length can't be negative.")
-
-        return cls((x, y), side)
-
 
 class Rectangle(ShapeInterface):
     shape_name = "Rectangle"
@@ -79,6 +49,33 @@ class Rectangle(ShapeInterface):
 
         return cls((x1, y1), (x2, y2))
 
+
+class Square(Rectangle):
+    shape_name = "Square"
+    def __init__(self, point, side):
+        self.top_right = point
+        self.side1 = side
+        self.side2 = side
+        self.side = side
+    
+    @classmethod
+    def read_from_line(cls, data):
+        try:
+            top_right_idx = data.index("TopRight")
+            x = float(data[top_right_idx + 1])
+            y = float(data[top_right_idx + 2])
+
+            side_idx = data.index("Side")
+            side = float(data[side_idx + 1])
+        except(ValueError, IndexError) as e:
+            raise ValueError(f"Invalid data. {cls.shape_name} should contain TopRight point and Side length.\
+                             Example: Square TopRight 1 1 Side 1")
+        
+        if side < 0:
+            raise ValueError("Side length can't be negative.")
+
+        return cls((x, y), side)
+    
 
 class Circle(ShapeInterface):
     shape_name = "Circle"
