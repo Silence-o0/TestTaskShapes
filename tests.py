@@ -96,11 +96,12 @@ def test_triangle_valid_computing2():
     assert shape.find_area() == pytest.approx(1, 1)
     assert shape.find_perimeter() == pytest.approx(22.8, 1)
 
-# def test_triangle_valid_read_from_line():
-    # data = ["TopRight", "3", "4", "BottomLeft", "1", "1"]
-    # shape = Rectangle.read_from_line(data)
-    # assert shape.top_right == (3, 4)
-    # assert shape.bottom_left == (1, 1)
+def test_triangle_valid_read_from_line():
+    data = ["Point1", "3", "4", "Point2", "1", "1", "Point3", "0", "0"]
+    shape = Triangle.read_from_line(data)
+    assert shape.point1 == (3, 4)
+    assert shape.point2 == (1, 1)
+    assert shape.point3 == (0, 0)
 
 # def test_rectangle_invalid_missing_topright():
 #     data = ["BottomLeft", "1", "1"]

@@ -136,4 +136,18 @@ class Triangle(Polygon):
 
     @classmethod
     def read_from_line(cls, data):
-        pass
+        try:
+            point1_idx = data.index("Point1")
+            point1_x = float(data[point1_idx + 1])
+            point1_y = float(data[point1_idx + 2])
+
+            point2_idx = data.index("Point2")
+            point2_x = float(data[point2_idx + 1])
+            point2_y = float(data[point2_idx + 2])
+
+            point3_idx = data.index("Point3")
+            point3_x = float(data[point3_idx + 1])
+            point3_y = float(data[point3_idx + 2])
+        except(ValueError, IndexError):
+            pass
+        return cls((point1_x, point1_y), (point2_x, point2_y), (point3_x, point3_y))
